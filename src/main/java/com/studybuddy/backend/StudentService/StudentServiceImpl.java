@@ -21,4 +21,19 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
+
+    public boolean checkLogin(String email, String password) {
+        // Implement the login check logic here
+        // For example, check if the provided email and password match with the database records
+        // You can use the studentRepository to query the database and verify the login credentials
+
+        Student student = studentRepository.findByEmail(email);
+        if (student != null && student.getPassword().equals(password)) {
+            // Login is successful
+            return true;
+        } else {
+            // Login failed
+            return false;
+        }
+    }
 }
