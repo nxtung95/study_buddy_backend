@@ -1,8 +1,8 @@
 //package com.studybuddy.backend.controller;
 //
 //import com.studybuddy.backend.StudentService.StudentService;
-//import com.studybuddy.backend.dto.ResponseDTO;
-//import com.studybuddy.backend.dto.StudentLoginRequest;
+//import com.studybuddy.backend.response.ResponseDTO;
+//import com.studybuddy.backend.request.StudentLoginRequest;
 //import com.studybuddy.backend.entity.Student;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.ResponseEntity;
