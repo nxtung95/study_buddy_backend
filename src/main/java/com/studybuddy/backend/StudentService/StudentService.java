@@ -1,6 +1,6 @@
 package com.studybuddy.backend.StudentService;
 
-import com.studybuddy.backend.model.Student;
+import com.studybuddy.backend.entity.Student;
 
 import java.util.List;
 

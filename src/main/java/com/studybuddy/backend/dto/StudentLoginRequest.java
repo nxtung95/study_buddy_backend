@@ -1,8 +1,8 @@
 package com.studybuddy.backend.dto;
 
 public class StudentLoginRequest {
-    private final String email;
-    private String password;
+    private String email;
+    private final String password;
 
     public StudentLoginRequest(String email, String password) {
         this.email = email;
