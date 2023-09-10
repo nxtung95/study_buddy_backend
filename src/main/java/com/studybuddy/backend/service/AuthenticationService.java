@@ -9,6 +9,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -85,14 +87,23 @@ public class AuthenticationService implements Serializable {
 	}
 
 
-//	public String getPhoneLoginName() {
-//		String currentPhone = "";
-//		if (SecurityContextHolder.getContext().getAuthentication() != null) {
-//			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//			currentPhone = (String) authentication.getPrincipal();
-//		}
-//		return currentPhone;
-//	}
+	public String extractEmailLogin() {
+		String currentEmail = "";
+		if (SecurityContextHolder.getContext().getAuthentication() != null) {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			currentEmail = (String) authentication.getPrincipal();
+		}
+		return currentEmail;
+	}
+
+	public int extractUserIdLogin() {
+		int userId = 0;
+		if (SecurityContextHolder.getContext().getAuthentication() != null) {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			userId = (Integer) authentication.getCredentials();
+		}
+		return userId;
+	}
 
 	public String extractTokenFromRequest(HttpServletRequest request) {
 		final String requestTokenHeader = request.getHeader("Authorization");

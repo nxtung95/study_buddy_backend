@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/app/user")
 @Slf4j
@@ -57,7 +59,10 @@ public class UserController {
 				res.setDesc("Wrong email or password");
 				return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
 			}
-			final String token = authenticationService.generateToken(user);
+			User newUser = user.toBuilder().build();
+			newUser.setSubjects(new ArrayList<>());
+			final String token = authenticationService.generateToken(newUser);
+
 			res.setUser(user);
 			res.setAccessToken(token);
 			return new ResponseEntity<>(res, HttpStatus.OK);
@@ -106,7 +111,7 @@ public class UserController {
 			boolean isExist = userService.checkExistByEmail(rq.getEmail());
 			if (isExist) {
 				res.setCode("02");
-				res.setDesc("Số điện thoại hoặc email đã tồn tại");
+				res.setDesc("Email have existed");
 				return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
 			}
 			User user = User.builder()

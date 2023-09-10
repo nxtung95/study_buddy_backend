@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -25,7 +26,6 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 	@Override
-	@Transactional(readOnly = true)
 	public User login(String username, String password) {
 		try {
 			log.info("Login with user: " + username);
@@ -36,11 +36,9 @@ public class UserServiceImpl implements UserService {
 			if (!passwordEncoder.matches(password, userDetails.getPassword())) {
 				return null;
 			}
-			Collection<SimpleGrantedAuthority> roleList = (Collection<SimpleGrantedAuthority>) userDetails.getAuthorities();
-			return User.builder()
-					.email(username)
-					.role(roleList.stream().findFirst().get().getAuthority())
-					.build();
+			User user = findByEmail(username);
+			user.setPassword("******");
+			return user;
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -63,6 +61,26 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public boolean checkExistByEmail(String mail) {
-		return userRepository.findByEmail(mail).isPresent();
+		try {
+			return userRepository.findByEmail(mail).isPresent();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return true;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public User findByEmail(String email) {
+		try {
+			Optional<User> optUser = userRepository.findByEmail(email);
+			if (optUser.isPresent()) {
+				return optUser.get();
+			}
+			return null;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return null;
 	}
 }

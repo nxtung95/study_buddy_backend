@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Entity
 @Table(name = "subject")
 @Getter
@@ -16,10 +18,10 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String title;
 
-    // Define the relationship with the Student entity
-//    @ManyToOne
-//    @JoinColumn(name = "student_id")
-//    private Student student;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "subject_id", referencedColumnName = "id")
+    private List<Question> questions;
 }

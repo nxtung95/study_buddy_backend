@@ -1,22 +1,19 @@
-//package com.studybuddy.backend.controller;
-//
-//import com.studybuddy.backend.StudentService.StudentService;
-//import com.studybuddy.backend.response.ResponseDTO;
-//import com.studybuddy.backend.request.StudentLoginRequest;
-//import com.studybuddy.backend.entity.Student;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping("/subject")
-//@CrossOrigin
-//public class SubjectController {
-//    @Autowired
-//    private StudentService studentService;
-//
+package com.studybuddy.backend.controller;
+
+import com.studybuddy.backend.service.SubjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/subject")
+@CrossOrigin
+public class SubjectController {
+    @Autowired
+    private SubjectService subjectService;
+
 //    @PostMapping("/add")
 //    public String add(@RequestBody Student student) {
 //        studentService.saveStudent(student);
@@ -38,4 +35,4 @@
 //    public List<Student> getAllStudents() {
 //        return studentService.getAllStudents();
 //    }
-//}
+}

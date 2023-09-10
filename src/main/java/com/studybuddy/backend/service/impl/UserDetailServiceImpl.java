@@ -32,7 +32,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 			SimpleGrantedAuthority role = new SimpleGrantedAuthority(user.getRole());
 			Collection<SimpleGrantedAuthority> roleList = new ArrayList<>();
 			roleList.add(role);
-			return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), roleList);
+			return new org.springframework.security.core.userdetails.User(user.getEmail(), String.valueOf(user.getId()), roleList);
 		} catch (Exception e) {
 			log.error("Failure in autoLogin", e);
 		}
