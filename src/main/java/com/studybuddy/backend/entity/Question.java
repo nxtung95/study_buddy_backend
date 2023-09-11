@@ -1,9 +1,7 @@
 package com.studybuddy.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Timestamp;
@@ -36,8 +34,10 @@ public class Question {
     private String imageDetailUrl;
 
     @Column(name = "created_date")
+    @Builder.Default
     private Timestamp createdDate = new Timestamp(System.currentTimeMillis());
 
     @Column(name = "updated_date")
+    @Builder.Default
     private Timestamp updatedDate = new Timestamp(System.currentTimeMillis());
 }

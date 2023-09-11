@@ -83,7 +83,7 @@ public class AuthenticationService implements Serializable {
 		String obj = getClaimFromToken(token, Claims::getSubject);
 		User user = gson.fromJson(obj, User.class);
 		log.info("Validate from token: " + gson.toJson(user));
-		return (user.getEmail().equals(userDetails.getUsername()) && !isTokenExpired(token));
+		return (String.valueOf(user.getId()).equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 
 
@@ -100,7 +100,7 @@ public class AuthenticationService implements Serializable {
 		int userId = 0;
 		if (SecurityContextHolder.getContext().getAuthentication() != null) {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			userId = (Integer) authentication.getCredentials();
+			userId = Integer.parseInt((String) authentication.getPrincipal());
 		}
 		return userId;
 	}

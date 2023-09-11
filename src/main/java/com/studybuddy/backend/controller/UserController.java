@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @RestController
 @RequestMapping("/app/user")
@@ -60,7 +61,7 @@ public class UserController {
 				return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
 			}
 			User newUser = user.toBuilder().build();
-			newUser.setSubjects(new ArrayList<>());
+			newUser.setSubjects(new HashSet<>());
 			final String token = authenticationService.generateToken(newUser);
 
 			res.setUser(user);

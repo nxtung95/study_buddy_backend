@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -28,6 +29,7 @@ public class User {
     private String lastName;
     private String role;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<UserSubject> userSubjects;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private Set<Subject> subjects;
 }

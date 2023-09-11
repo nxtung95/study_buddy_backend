@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AndRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -39,17 +40,12 @@ public class WebSecurityConfig {
 		http.exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
 		http.authorizeHttpRequests(request ->
-				request.requestMatchers("/login", "/health", "/register").permitAll().anyRequest().permitAll());
-
+				request.requestMatchers("/app/user/login", "/app/user/register").permitAll()
+				.anyRequest().authenticated());
 
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
-
-//	@Bean
-//	public WebSecurityCustomizer webSecurityCustomizer() {
-//		return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
-//	}
 
 }

@@ -7,5 +7,5 @@ public interface SubjectService {
 
 	Subject edit(int id, String title);
 
-	Subject remove(int subjectId);
+	void remove(int subjectId);
 }

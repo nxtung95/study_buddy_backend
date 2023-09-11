@@ -1,6 +1,7 @@
 package com.studybuddy.backend.filter;
 
 import com.google.common.base.Strings;
+import com.google.gson.Gson;
 import com.studybuddy.backend.entity.User;
 import com.studybuddy.backend.service.AuthenticationService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -28,6 +29,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	private AuthenticationService jwtTokenUtil;
 	@Autowired
 	private UserDetailsService jwtUserDetailsService;
+	@Autowired
+	private Gson gson;
 
 	@SneakyThrows
 	@Override
@@ -36,8 +39,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 		User user = null;
 		String jwtToken = jwtTokenUtil.extractTokenFromRequest(request);
-		// JWT Token is in the form "Bearer token". Remove Bearer word and get
-		// only the Token
+		// JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
 		if (!Strings.isNullOrEmpty(jwtToken)) {
 			try {
 				user = jwtTokenUtil.getUserFromToken(jwtToken);
@@ -51,6 +53,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		}
 
 		// Once we get the token validate it.
+		log.info("Authen: " + gson.toJson(SecurityContextHolder.getContext().getAuthentication()));
 		if (user != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(user.getEmail());
 
