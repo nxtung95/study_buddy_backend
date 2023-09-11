@@ -93,6 +93,7 @@ public class SubjectController {
                 return ResponseEntity.badRequest().body(res);
             }
             subjectService.remove(subject.getId());
+            res.setSubject(subject);
             return ResponseEntity.ok(res);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
