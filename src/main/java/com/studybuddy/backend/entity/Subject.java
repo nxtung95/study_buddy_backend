@@ -1,11 +1,13 @@
 package com.studybuddy.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Entity
@@ -27,4 +29,8 @@ public class Subject {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     private Set<Question> questions;
+
+    @Column(name = "created_date")
+    @Builder.Default
+    private Timestamp createdDate = new Timestamp(System.currentTimeMillis());
 }
