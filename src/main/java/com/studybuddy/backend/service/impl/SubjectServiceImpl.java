@@ -2,7 +2,6 @@ package com.studybuddy.backend.service.impl;
 
 import com.studybuddy.backend.entity.Subject;
 import com.studybuddy.backend.repository.SubjectRepository;
-import com.studybuddy.backend.service.AuthenticationService;
 import com.studybuddy.backend.service.SubjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

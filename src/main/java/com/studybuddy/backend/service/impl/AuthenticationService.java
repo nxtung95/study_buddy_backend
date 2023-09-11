@@ -1,4 +1,4 @@
-package com.studybuddy.backend.service;
+package com.studybuddy.backend.service.impl;
 
 import com.google.gson.Gson;
 import com.studybuddy.backend.config.ShareConfig;

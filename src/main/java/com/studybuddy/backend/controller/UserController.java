@@ -7,7 +7,7 @@ import com.studybuddy.backend.request.LoginRequest;
 import com.studybuddy.backend.request.RegisterUserRequest;
 import com.studybuddy.backend.response.LoginResponse;
 import com.studybuddy.backend.response.RegisterUserResponse;
-import com.studybuddy.backend.service.AuthenticationService;
+import com.studybuddy.backend.service.impl.AuthenticationService;
 import com.studybuddy.backend.service.UserService;
 import com.studybuddy.backend.utils.ValidtionUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 @RestController

@@ -3,7 +3,7 @@ package com.studybuddy.backend.filter;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.studybuddy.backend.entity.User;
-import com.studybuddy.backend.service.AuthenticationService;
+import com.studybuddy.backend.service.impl.AuthenticationService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
