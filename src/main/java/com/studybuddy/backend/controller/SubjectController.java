@@ -30,6 +30,11 @@ public class SubjectController {
                 res.setDesc("Please enter your subject title");
                 return ResponseEntity.badRequest().body(res);
             }
+            if (subjectService.checkExistSubject(rq.getTitle())) {
+                res.setCode("01");
+                res.setDesc("This subject has existed");
+                return ResponseEntity.badRequest().body(res);
+            }
             Subject subject = subjectService.create(rq.getTitle());
             res.setSubject(subject);
             return ResponseEntity.ok(res);
@@ -51,6 +56,11 @@ public class SubjectController {
             if (rq == null || rq.getId() == null || Strings.isNullOrEmpty(rq.getTitle())) {
                 res.setCode("01");
                 res.setDesc("Invalid subject data");
+                return ResponseEntity.badRequest().body(res);
+            }
+            if (subjectService.checkExistSubject(rq.getTitle())) {
+                res.setCode("01");
+                res.setDesc("This subject has existed");
                 return ResponseEntity.badRequest().body(res);
             }
             Subject subject = subjectService.edit(rq.getId(), rq.getTitle());
@@ -76,7 +86,13 @@ public class SubjectController {
                 res.setDesc("Invalid subject data");
                 return ResponseEntity.badRequest().body(res);
             }
-            subjectService.remove(id);
+            Subject subject = subjectService.findById(id);
+            if (subject == null) {
+                res.setCode("01");
+                res.setDesc("This subject has not existed");
+                return ResponseEntity.badRequest().body(res);
+            }
+            subjectService.remove(subject.getId());
             return ResponseEntity.ok(res);
         } catch (Exception e) {
             log.error(e.getMessage(), e);

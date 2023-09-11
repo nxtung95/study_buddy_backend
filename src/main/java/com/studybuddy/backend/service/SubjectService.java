@@ -8,4 +8,8 @@ public interface SubjectService {
 	Subject edit(int id, String title);
 
 	void remove(int subjectId);
+
+	boolean checkExistSubject(String title);
+
+	Subject findById(int id);
 }

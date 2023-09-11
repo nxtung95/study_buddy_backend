@@ -107,6 +107,7 @@ public class AuthenticationService implements Serializable {
 
 	public String extractTokenFromRequest(HttpServletRequest request) {
 		final String requestTokenHeader = request.getHeader("Authorization");
+		log.info("requestTokenHeader " + requestTokenHeader);
 		String jwtToken = "";
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 			jwtToken = requestTokenHeader.substring(7);

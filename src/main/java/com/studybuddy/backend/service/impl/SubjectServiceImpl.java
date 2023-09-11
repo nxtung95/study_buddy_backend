@@ -54,13 +54,31 @@ public class SubjectServiceImpl implements SubjectService {
     @Transactional
     public void remove(int subjectId) {
         try {
-            Subject subject = subjectRepository.findById(subjectId).orElse(null);
-            if (subject == null) {
-                return;
-            }
-            subjectRepository.deleteById(subject.getId());
+            subjectRepository.deleteById(subjectId);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean checkExistSubject(String title) {
+        try {
+            return subjectRepository.findByTitleContainsIgnoreCase(title).isPresent();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return true;
+    }
+
+    @Override
+    public Subject findById(int id) {
+        try {
+            Subject subject = subjectRepository.findById(id).orElse(null);
+            return subject;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return null;
     }
 }
