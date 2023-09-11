@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : LOCAL_HOME
+ Source Server         : MYSQL_LOCAL
  Source Server Type    : MySQL
- Source Server Version : 80025
+ Source Server Version : 80031
  Source Host           : localhost:3306
  Source Schema         : study_buddy
 
  Target Server Type    : MySQL
- Target Server Version : 80025
+ Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 10/09/2023 23:31:22
+ Date: 11/09/2023 22:00:08
 */
 
 SET NAMES utf8mb4;
@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `answer`;
 CREATE TABLE `answer`  (
   `id` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of answer
@@ -45,7 +45,7 @@ CREATE TABLE `question`  (
   `created_date` datetime(0) NULL DEFAULT NULL,
   `updated_date` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of question
@@ -57,13 +57,19 @@ CREATE TABLE `question`  (
 DROP TABLE IF EXISTS `subject`;
 CREATE TABLE `subject`  (
   `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NULL DEFAULT NULL,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `created_date` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of subject
 -- ----------------------------
+INSERT INTO `subject` VALUES (1, 1, 'Math', '2023-09-11 15:42:21');
+INSERT INTO `subject` VALUES (2, 1, 'Science', '2023-09-10 15:42:28');
+INSERT INTO `subject` VALUES (3, 1, 'Social studies', '2023-09-02 15:42:35');
+INSERT INTO `subject` VALUES (6, 1, 'Subject A', '2023-09-11 16:22:22');
 
 -- ----------------------------
 -- Table structure for user
@@ -77,7 +83,7 @@ CREATE TABLE `user`  (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
@@ -89,19 +95,5 @@ INSERT INTO `user` VALUES (4, 'nxtung30010195@gmail.com', 'Nghiem', 'Tung', '$2a
 INSERT INTO `user` VALUES (5, 'nxtung123123195@gmail.com', 'Nghiem', 'Tung', '$2a$10$hZpzIrAg7GCYaEvFvBEmnuG6MrEkNdc26z.m3RsfyI.d4MX63gRzC', 'student');
 INSERT INTO `user` VALUES (6, 'nxtung12321395@gmail.com', 'Nghiem', 'Tung', '$2a$10$MzsZFy7cqBD7Yhnip9y81usH.jxswlSzDq8p1GyFMADSOBmIFQR4e', 'student');
 INSERT INTO `user` VALUES (7, 'nxtung12121295@gmail.com', 'Nghiem', 'Tung', '$2a$10$ew9mgP0uBwDQgHSCbuoLJu0VL1rmKFmGIbbJ0nBgOTjgwmiqpEwEW', 'student');
-
--- ----------------------------
--- Table structure for user_subject
--- ----------------------------
-DROP TABLE IF EXISTS `user_subject`;
-CREATE TABLE `user_subject`  (
-  `user_id` int NOT NULL,
-  `subject_id` int NOT NULL,
-  PRIMARY KEY (`user_id`, `subject_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of user_subject
--- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
