@@ -5,10 +5,11 @@ import com.google.common.base.Strings;
 import com.studybuddy.backend.entity.User;
 import com.studybuddy.backend.request.LoginRequest;
 import com.studybuddy.backend.request.RegisterUserRequest;
+import com.studybuddy.backend.response.FindTutorResponse;
 import com.studybuddy.backend.response.LoginResponse;
 import com.studybuddy.backend.response.RegisterUserResponse;
-import com.studybuddy.backend.service.impl.AuthenticationService;
 import com.studybuddy.backend.service.UserService;
+import com.studybuddy.backend.service.impl.AuthenticationService;
 import com.studybuddy.backend.utils.ValidtionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
+import java.util.List;
 
 @RestController
 @RequestMapping("/app/user")
@@ -136,5 +138,23 @@ public class UserController {
 			log.error(e.getMessage(), e);
 		}
 		return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@RequestMapping(value = "/tutors", method = RequestMethod.GET)
+	public ResponseEntity<FindTutorResponse> findTutors() {
+		FindTutorResponse res = FindTutorResponse.builder()
+				.code("00")
+				.desc("Success")
+				.build();
+		try {
+			List<User> tutors = userService.findTutors();
+			res.setTutors(tutors);
+			return ResponseEntity.ok(res);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			res.setCode("99");
+			res.setDesc("System error. Please try again");
+			return ResponseEntity.internalServerError().body(res);
+		}
 	}
 }

@@ -1,18 +1,18 @@
-package com.studybuddy.backend.StudentService.impl;
+package com.studybuddy.backend.service.impl;
 
 import com.studybuddy.backend.entity.User;
 import com.studybuddy.backend.repository.UserRepository;
 import com.studybuddy.backend.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -82,5 +82,17 @@ public class UserServiceImpl implements UserService {
 			log.error(e.getMessage(), e);
 		}
 		return null;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<User> findTutors() {
+		List<User> tutors = new ArrayList<>();
+		try {
+			return userRepository.findAllByRole("tutor");
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return tutors;
 	}
 }

@@ -28,7 +28,7 @@ public class User {
     private String lastName;
     private String role;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @OrderBy(value = "createdDate DESC")
     private Set<Subject> subjects;
