@@ -9,5 +9,5 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder(toBuilder = true)
 public class QuestionResponse extends BaseResponse {
-	private Question question;
+	private Question card;
 }
