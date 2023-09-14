@@ -12,18 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AnswerServiceImpl implements AnswerService {
     @Autowired
-    private AuthenticationService authenticationService;
-    @Autowired
     private AnswerRepository answerRepository;
 
     @Override
     @Transactional
-    public Answer create(int questionId, String content) {
+    public Answer create(int questionId, int tutorId, String content) {
         try {
-            int currentUserid = authenticationService.extractUserIdLogin();
             Answer answer = Answer.builder()
                     .questionId(questionId)
-                    .userId(currentUserid)
+                    .tutorId(tutorId)
                     .content(content)
                     .build();
             Answer addAnswer = answerRepository.save(answer);

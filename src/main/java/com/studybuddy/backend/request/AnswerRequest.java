@@ -11,5 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AnswerRequest {
 	private int questionId;
+	private int tutorId;
 	private String content;
 }

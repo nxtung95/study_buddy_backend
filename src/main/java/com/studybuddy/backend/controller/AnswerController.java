@@ -28,12 +28,12 @@ public class AnswerController {
                 .desc("Success")
                 .build();
         try {
-            if (ValidtionUtils.checkEmptyOrNull(rq.getContent()) || rq.getQuestionId() <= 0) {
+            if (ValidtionUtils.checkEmptyOrNull(rq.getContent()) || rq.getQuestionId() <= 0 || rq.getTutorId() <= 0) {
                 res.setCode("01");
                 res.setDesc("Invalid answer data");
                 return ResponseEntity.badRequest().body(res);
             }
-            Answer answer = answerService.create(rq.getQuestionId(), rq.getContent());
+            Answer answer = answerService.create(rq.getQuestionId(), rq.getTutorId(), rq.getContent());
             res.setAnswer(answer);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } catch (Exception e) {
