@@ -54,6 +54,10 @@ public class Question {
     @Builder.Default
     private Timestamp updatedDate = new Timestamp(System.currentTimeMillis());
 
+    @Column(name = "answer_date")
+    @Builder.Default
+    private Timestamp answerDate;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     @OrderBy(value = "updatedDate DESC")

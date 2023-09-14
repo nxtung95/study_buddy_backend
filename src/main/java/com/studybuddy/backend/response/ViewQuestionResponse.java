@@ -13,6 +13,9 @@ import java.util.List;
 @SuperBuilder(toBuilder = true)
 public class ViewQuestionResponse extends BaseResponse {
 	private String inputText;
+	private String tutorName;
+	private String answerDate;
+	private int status;
 	private List<FileUpload> images;
 	private List<AnswerViewObj> answers;
 	private FileUpload solution;

@@ -75,17 +75,18 @@ public class QuestionController {
 				res.setInputText(question.getInputDetail());
 				res.setImages(uploadFileService.getFile(subjectId, questionId));
 				List<User> userList = userService.findTutors();
+				User user = userList.stream().filter(u -> u.getId() == question.getTutorId()).findFirst().orElse(null);
+				String tutorName = user == null ? "" : user.getFirstName() + " " + user.getLastName();
+				res.setTutorName(tutorName);
+				res.setStatus(question.getStatus());
+				res.setAnswerDate(FormatUtils.formatDate(question.getAnswerDate(), "yyyy-MM-dd HH:mm:ss"));
 				List<AnswerViewObj> answers = question.getAnswers().stream()
-						.map(a -> {
-							User user = userList.stream().filter(u -> u.getId() == a.getTutorId()).findFirst().orElse(null);
-							String tutorName = user == null ? "" : user.getFirstName() + " " + user.getLastName();
-							return AnswerViewObj.builder()
-									.id(a.getId())
-									.content(a.getContent())
-									.updatedDate(FormatUtils.formatDate(a.getUpdatedDate(), "yyyy-MM-dd HH:mm:ss"))
-									.tutorName(tutorName)
-									.build();
-						})
+						.map(a -> AnswerViewObj.builder()
+								.id(a.getId())
+								.content(a.getContent())
+								.updatedDate(FormatUtils.formatDate(a.getUpdatedDate(), "yyyy-MM-dd HH:mm:ss"))
+								.tutorName(tutorName)
+								.build())
 						.collect(Collectors.toList());
 				res.setAnswers(answers);
 				res.setVideoCall(question.getIsVideoCall() == 1 ? true : false);
