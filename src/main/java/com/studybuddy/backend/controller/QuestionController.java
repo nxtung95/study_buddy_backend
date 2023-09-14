@@ -79,7 +79,7 @@ public class QuestionController {
 				String tutorName = user == null ? "" : user.getFirstName() + " " + user.getLastName();
 				res.setTutorName(tutorName);
 				res.setStatus(question.getStatus());
-				res.setAnswerDate(FormatUtils.formatDate(question.getAnswerDate(), "yyyy-MM-dd HH:mm:ss"));
+				res.setAnswerDate(question.getAnswerDate() != null  ? FormatUtils.formatDate(question.getAnswerDate(), "yyyy-MM-dd HH:mm:ss") : "");
 				List<AnswerViewObj> answers = question.getAnswers().stream()
 						.map(a -> AnswerViewObj.builder()
 								.id(a.getId())

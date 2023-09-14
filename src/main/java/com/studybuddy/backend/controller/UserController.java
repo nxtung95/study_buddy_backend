@@ -3,12 +3,14 @@ package com.studybuddy.backend.controller;
 
 import com.google.common.base.Strings;
 import com.studybuddy.backend.entity.Question;
+import com.studybuddy.backend.entity.Subject;
 import com.studybuddy.backend.entity.User;
 import com.studybuddy.backend.request.LoginRequest;
 import com.studybuddy.backend.request.RegisterUserRequest;
 import com.studybuddy.backend.response.FindTutorResponse;
 import com.studybuddy.backend.response.LoginResponse;
 import com.studybuddy.backend.response.RegisterUserResponse;
+import com.studybuddy.backend.service.SubjectService;
 import com.studybuddy.backend.service.UserService;
 import com.studybuddy.backend.service.impl.AuthenticationService;
 import com.studybuddy.backend.utils.ValidtionUtils;
@@ -36,6 +38,9 @@ public class UserController {
 
 	@Autowired
 	private AuthenticationService authenticationService;
+
+	@Autowired
+	private SubjectService subjectService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest rq) throws Exception {
@@ -65,11 +70,13 @@ public class UserController {
 				return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
 			}
 			if ("tutor".equalsIgnoreCase(user.getRole())) {
-				user.getSubjects().forEach(subject -> {
+				List<Subject> subjects = subjectService.findAll();
+				subjects.forEach(subject -> {
 					Set<Question> questions = subject.getQuestions();
 					Set<Question> filterQuestions = questions.stream().filter(q -> q.getTutorId() == user.getId()).collect(Collectors.toSet());
 					subject.setQuestions(filterQuestions);
 				});
+				user.setSubjects(new HashSet<>(subjects));
 			}
 			User newUser = user.toBuilder().build();
 			newUser.setSubjects(new HashSet<>());

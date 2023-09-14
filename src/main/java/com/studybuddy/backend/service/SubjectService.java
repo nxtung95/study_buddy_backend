@@ -2,6 +2,8 @@ package com.studybuddy.backend.service;
 
 import com.studybuddy.backend.entity.Subject;
 
+import java.util.List;
+
 public interface SubjectService {
 	Subject create(String title);
 
@@ -12,4 +14,6 @@ public interface SubjectService {
 	boolean checkExistSubject(String title);
 
 	Subject findById(int id);
+
+	List<Subject> findAll();
 }

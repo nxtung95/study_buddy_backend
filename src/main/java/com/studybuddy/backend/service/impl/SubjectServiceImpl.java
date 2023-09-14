@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Service
 public class SubjectServiceImpl implements SubjectService {
@@ -80,5 +83,17 @@ public class SubjectServiceImpl implements SubjectService {
             log.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Subject> findAll() {
+        List<Subject> subjects = new ArrayList<>();
+        try {
+            subjects = subjectRepository.findAllByOrderByCreatedDateDesc();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return subjects;
     }
 }
