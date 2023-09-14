@@ -1,10 +1,14 @@
 package com.studybuddy.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(name = "question")
@@ -33,6 +37,15 @@ public class Question {
     @Column(name = "image_detail_url")
     private String imageDetailUrl;
 
+    @Column(name = "is_voice_call")
+    private boolean isVoiceCall;
+
+    @Column(name = "is_chat_message")
+    private boolean isChatMessage;
+
+    @Column(name = "is_video_call")
+    private boolean isVideoCall;
+
     @Column(name = "created_date")
     @Builder.Default
     private Timestamp createdDate = new Timestamp(System.currentTimeMillis());
@@ -40,4 +53,9 @@ public class Question {
     @Column(name = "updated_date")
     @Builder.Default
     private Timestamp updatedDate = new Timestamp(System.currentTimeMillis());
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
+    @OrderBy(value = "updatedDate DESC")
+    private Set<Answer> answers;
 }

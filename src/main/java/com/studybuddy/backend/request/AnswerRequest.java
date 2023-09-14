@@ -1,4 +1,4 @@
-package com.studybuddy.backend.object;
+package com.studybuddy.backend.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileUpload {
-    private String fileName;
-    private String data;
+public class AnswerRequest {
+	private int questionId;
+	private String content;
 }

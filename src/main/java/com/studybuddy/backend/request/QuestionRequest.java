@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionRequest {
+	private int questionId;
 	private String title;
 	private int subjectId;
 	private int tutorId;

@@ -1,10 +1,13 @@
 package com.studybuddy.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "answer")
@@ -13,16 +16,24 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public class Answer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "student_id")
-//    private Student student;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "question_id")
-//    private Question question;
+    @Column(name = "question_id")
+    private int questionId;
+
+    @Column(name = "user_id")
+    private int userId;
+
+    @Column(name = "content")
+    private String content;
+
+    @Column(name = "created_date")
+    @Builder.Default
+    private Timestamp createdDate = new Timestamp(System.currentTimeMillis());
+
+    @Column(name = "updated_date")
+    @Builder.Default
+    private Timestamp updatedDate = new Timestamp(System.currentTimeMillis());
 }

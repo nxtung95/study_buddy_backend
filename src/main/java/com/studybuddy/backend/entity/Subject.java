@@ -28,6 +28,7 @@ public class Subject {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
+    @OrderBy(value = "updatedDate DESC")
     private Set<Question> questions;
 
     @Column(name = "created_date")

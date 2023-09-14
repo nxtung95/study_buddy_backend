@@ -31,6 +31,34 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return null;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Question findById(int questionId) {
+        try {
+            return questionRepository.findById(questionId).orElse(null);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public boolean update(int questionId, String filePath, String inputText) {
+        try {
+            Question question = findById(questionId);
+            if (question != null) {
+                question.setInputDetail(inputText);
+                question.setImageDetailUrl(filePath);
+                int update = questionRepository.save(question).getId();
+                return update > 0;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return false;
+    }
 //
 //    @Override
 //    @Transactional
