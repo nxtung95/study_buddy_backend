@@ -24,6 +24,9 @@ public class QuestionServiceImpl implements QuestionService {
                     .tutorId(tutorId)
                     .inputDetail(inputDetail)
                     .imageDetailUrl(filePath)
+                    .isVoiceCall(0)
+                    .isChatMessage(0)
+                    .isVideoCall(0)
                     .build();
             return questionRepository.save(question);
         } catch (Exception e) {
