@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+
 @Slf4j
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -52,6 +54,7 @@ public class QuestionServiceImpl implements QuestionService {
         try {
             Question question = findById(questionId);
             if (question != null) {
+                question.setUpdatedDate(new Timestamp(System.currentTimeMillis()));
                 question.setInputDetail(inputText);
                 question.setImageDetailUrl(filePath);
                 int update = questionRepository.save(question).getId();
@@ -72,42 +75,15 @@ public class QuestionServiceImpl implements QuestionService {
             log.error(e.getMessage(), e);
         }
     }
-//
-//    @Override
-//    @Transactional
-//    public Question edit(int id, String title) {
-//        try {
-//            Subject subject = subjectRepository.findById(id).orElse(null);
-//            if (subject == null) {
-//                return null;
-//            }
-//            subject.setTitle(title);
-//            Subject addSubject = subjectRepository.save(subject);
-//            return addSubject;
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void remove(int subjectId) {
-//        try {
-//            subjectRepository.deleteById(subjectId);
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//        }
-//    }
-//
-//    @Override
-//    public Question findById(int id) {
-//        try {
-//            Subject subject = subjectRepository.findById(id).orElse(null);
-//            return subject;
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//        }
-//        return null;
-//    }
+
+    @Override
+    @Transactional
+    public void update(Question question) {
+        try {
+            question.setUpdatedDate(new Timestamp(System.currentTimeMillis()));
+            questionRepository.save(question);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
 }

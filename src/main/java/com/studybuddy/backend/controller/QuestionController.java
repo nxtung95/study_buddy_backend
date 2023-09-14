@@ -4,6 +4,7 @@ import com.studybuddy.backend.entity.Question;
 import com.studybuddy.backend.entity.User;
 import com.studybuddy.backend.object.AnswerViewObj;
 import com.studybuddy.backend.object.CustomMultipartFile;
+import com.studybuddy.backend.request.QuestionContactRequest;
 import com.studybuddy.backend.request.QuestionRequest;
 import com.studybuddy.backend.response.QuestionResponse;
 import com.studybuddy.backend.response.ViewQuestionResponse;
@@ -127,6 +128,54 @@ public class QuestionController {
 
 				return new ResponseEntity<>(res, HttpStatus.OK);
 			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			res.setCode("99");
+			res.setDesc("System error. Please try again");
+		}
+		return ResponseEntity.internalServerError().body(res);
+	}
+
+	@RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
+	public ResponseEntity<QuestionResponse> updateSatus(@RequestBody QuestionContactRequest rq) {
+		QuestionResponse res = QuestionResponse.builder()
+				.code("00")
+				.desc("Success")
+				.build();
+		try {
+			if (rq.getQuestionId() <= 0) {
+				res.setCode("01");
+				res.setDesc("Invalid question data");
+				return ResponseEntity.badRequest().body(res);
+			}
+			Question question = questionService.findById(rq.getQuestionId());
+			question.setStatus(rq.getStatus());
+			questionService.update(question);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			res.setCode("99");
+			res.setDesc("System error. Please try again");
+		}
+		return ResponseEntity.internalServerError().body(res);
+	}
+
+	@RequestMapping(value = "/updateContact", method = RequestMethod.POST)
+	public ResponseEntity<QuestionResponse> update(@RequestBody QuestionContactRequest rq) {
+		QuestionResponse res = QuestionResponse.builder()
+				.code("00")
+				.desc("Success")
+				.build();
+		try {
+			if (rq.getQuestionId() <= 0) {
+				res.setCode("01");
+				res.setDesc("Invalid question data");
+				return ResponseEntity.badRequest().body(res);
+			}
+			Question question = questionService.findById(rq.getQuestionId());
+			question.setIsChatMessage(rq.getIsAllowChat());
+			question.setIsVideoCall(rq.getIsAllowVideoCall());
+			question.setIsVoiceCall(rq.getIsAllowVoiceCall());
+			questionService.update(question);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			res.setCode("99");

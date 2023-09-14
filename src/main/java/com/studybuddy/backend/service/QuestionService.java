@@ -10,4 +10,6 @@ public interface QuestionService {
     boolean update(int questionId, String filePath, String inputText);
 
     void delete(int questionId);
+
+	void update(Question question);
 }
