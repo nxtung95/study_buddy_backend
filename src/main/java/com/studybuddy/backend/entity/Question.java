@@ -55,7 +55,6 @@ public class Question {
     private Timestamp updatedDate = new Timestamp(System.currentTimeMillis());
 
     @Column(name = "answer_date")
-    @Builder.Default
     private Timestamp answerDate;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
