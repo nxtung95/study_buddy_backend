@@ -2,6 +2,7 @@ package com.studybuddy.backend.controller;
 
 
 import com.google.common.base.Strings;
+import com.studybuddy.backend.entity.Question;
 import com.studybuddy.backend.entity.User;
 import com.studybuddy.backend.request.LoginRequest;
 import com.studybuddy.backend.request.RegisterUserRequest;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/app/user")
@@ -60,6 +63,13 @@ public class UserController {
 				res.setCode("02");
 				res.setDesc("Wrong email or password");
 				return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+			}
+			if ("tutor".equalsIgnoreCase(user.getRole())) {
+				user.getSubjects().forEach(subject -> {
+					Set<Question> questions = subject.getQuestions();
+					Set<Question> filterQuestions = questions.stream().filter(q -> q.getTutorId() == user.getId()).collect(Collectors.toSet());
+					subject.setQuestions(filterQuestions);
+				});
 			}
 			User newUser = user.toBuilder().build();
 			newUser.setSubjects(new HashSet<>());
