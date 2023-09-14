@@ -68,9 +68,9 @@ public class QuestionController {
 				res.setInputText(question.getInputDetail());
 				res.setImages(uploadFileService.getFile(subjectId, questionId));
 				res.setAnswers(question.getAnswers().stream().toList());
-				res.setVideoCall(question.isVideoCall());
-				res.setChatMessage(question.isChatMessage());
-				res.setVideoCall(question.isVideoCall());
+				res.setVideoCall(question.getIsVideoCall() == 1 ? true : false);
+				res.setChatMessage(question.getIsChatMessage() == 1 ? true : false);
+				res.setVoiceCall(question.getIsVoiceCall() == 1 ? true : false);
 				return new ResponseEntity<>(res, HttpStatus.OK);
 			}
 		} catch (Exception e) {

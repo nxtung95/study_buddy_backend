@@ -38,13 +38,13 @@ public class Question {
     private String imageDetailUrl;
 
     @Column(name = "is_voice_call")
-    private boolean isVoiceCall;
+    private Integer isVoiceCall;
 
     @Column(name = "is_chat_message")
-    private boolean isChatMessage;
+    private Integer isChatMessage;
 
     @Column(name = "is_video_call")
-    private boolean isVideoCall;
+    private Integer isVideoCall;
 
     @Column(name = "created_date")
     @Builder.Default
