@@ -1,7 +1,6 @@
 package com.studybuddy.backend.response;
 
 import com.studybuddy.backend.entity.Answer;
-import com.studybuddy.backend.entity.Question;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;

@@ -1,12 +1,16 @@
 package com.studybuddy.backend.controller;
 
 import com.studybuddy.backend.entity.Question;
+import com.studybuddy.backend.entity.User;
+import com.studybuddy.backend.object.AnswerViewObj;
 import com.studybuddy.backend.object.CustomMultipartFile;
 import com.studybuddy.backend.request.QuestionRequest;
 import com.studybuddy.backend.response.QuestionResponse;
 import com.studybuddy.backend.response.ViewQuestionResponse;
 import com.studybuddy.backend.service.QuestionService;
 import com.studybuddy.backend.service.UploadFileService;
+import com.studybuddy.backend.service.UserService;
+import com.studybuddy.backend.utils.FormatUtils;
 import com.studybuddy.backend.utils.ValidtionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,6 +30,8 @@ public class QuestionController {
 	private UploadFileService uploadFileService;
 	@Autowired
 	private QuestionService questionService;
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<QuestionResponse> add(@RequestBody QuestionRequest rq) {
@@ -67,7 +74,20 @@ public class QuestionController {
 			if (question != null) {
 				res.setInputText(question.getInputDetail());
 				res.setImages(uploadFileService.getFile(subjectId, questionId));
-				res.setAnswers(question.getAnswers().stream().toList());
+				List<User> userList = userService.findTutors();
+				List<AnswerViewObj> answers = question.getAnswers().stream()
+						.map(a -> {
+							User user = userList.stream().filter(u -> u.getId() == a.getTutorId()).findFirst().orElse(null);
+							String tutorName = user == null ? "" : user.getFirstName() + " " + user.getLastName();
+							return AnswerViewObj.builder()
+									.id(a.getId())
+									.content(a.getContent())
+									.updatedDate(FormatUtils.formatDate(a.getUpdatedDate(), "yyyy-MM-dd HH:mm:ss"))
+									.tutorName(tutorName)
+									.build();
+						})
+						.collect(Collectors.toList());
+				res.setAnswers(answers);
 				res.setVideoCall(question.getIsVideoCall() == 1 ? true : false);
 				res.setChatMessage(question.getIsChatMessage() == 1 ? true : false);
 				res.setVoiceCall(question.getIsVoiceCall() == 1 ? true : false);

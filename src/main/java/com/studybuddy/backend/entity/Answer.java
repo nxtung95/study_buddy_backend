@@ -23,8 +23,8 @@ public class Answer {
     @Column(name = "question_id")
     private int questionId;
 
-    @Column(name = "user_id")
-    private int userId;
+    @Column(name = "tutor_id")
+    private int tutorId;
 
     @Column(name = "content")
     private String content;

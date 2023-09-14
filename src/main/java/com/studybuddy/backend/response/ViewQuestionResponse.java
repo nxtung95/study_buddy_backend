@@ -1,6 +1,6 @@
 package com.studybuddy.backend.response;
 
-import com.studybuddy.backend.entity.Answer;
+import com.studybuddy.backend.object.AnswerViewObj;
 import com.studybuddy.backend.object.FileUpload;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import java.util.List;
 public class ViewQuestionResponse extends BaseResponse {
 	private String inputText;
 	private List<FileUpload> images;
-	private List<Answer> answers;
+	private List<AnswerViewObj> answers;
 	private FileUpload solution;
 	private boolean isVoiceCall;
 	private boolean isChatMessage;
