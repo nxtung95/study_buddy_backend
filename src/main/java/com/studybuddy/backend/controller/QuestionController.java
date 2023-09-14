@@ -88,8 +88,7 @@ public class QuestionController {
 				.desc("Success")
 				.build();
 		try {
-			if (ValidtionUtils.checkEmptyOrNull(rq.getInputText()) || rq.getFiles() == null
-					|| rq.getFiles().isEmpty() || rq.getQuestionId() <= 0 || rq.getSubjectId() <= 0) {
+			if (ValidtionUtils.checkEmptyOrNull(rq.getInputText()) || rq.getQuestionId() <= 0 || rq.getSubjectId() <= 0) {
 				res.setCode("01");
 				res.setDesc("Invalid question data");
 				return ResponseEntity.badRequest().body(res);
@@ -107,6 +106,33 @@ public class QuestionController {
 
 				return new ResponseEntity<>(res, HttpStatus.OK);
 			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			res.setCode("99");
+			res.setDesc("System error. Please try again");
+		}
+		return ResponseEntity.internalServerError().body(res);
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public ResponseEntity<QuestionResponse> delete(@RequestBody QuestionRequest rq) {
+		QuestionResponse res = QuestionResponse.builder()
+				.code("00")
+				.desc("Success")
+				.build();
+		try {
+			if (rq.getQuestionId() <= 0 || rq.getSubjectId() <= 0) {
+				res.setCode("01");
+				res.setDesc("Invalid question data");
+				return ResponseEntity.badRequest().body(res);
+			}
+			// Delete old file
+			uploadFileService.deleteFile(rq.getSubjectId(), rq.getQuestionId());
+
+			questionService.delete(rq.getQuestionId());
+
+			res.setCard(Question.builder().subjectId(rq.getSubjectId()).id(rq.getQuestionId()).build());
+			return new ResponseEntity<>(res, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			res.setCode("99");

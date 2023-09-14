@@ -8,4 +8,6 @@ public interface QuestionService {
     Question findById(int questionId);
 
     boolean update(int questionId, String filePath, String inputText);
+
+    void delete(int questionId);
 }

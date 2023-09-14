@@ -62,6 +62,16 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return false;
     }
+
+    @Override
+    @Transactional
+    public void delete(int questionId) {
+        try {
+            questionRepository.deleteById(questionId);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
 //
 //    @Override
 //    @Transactional
