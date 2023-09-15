@@ -41,7 +41,7 @@ public class WebSecurityConfig {
 		http.exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
 		http.authorizeHttpRequests(request ->
-				request.requestMatchers("/app/user/login", "/app/user/register").permitAll()
+				request.requestMatchers("/app/user/login", "/app/user/register", "/ws-chat").permitAll()
 				.requestMatchers(HttpMethod.OPTIONS).permitAll()
 				.anyRequest().authenticated());
 

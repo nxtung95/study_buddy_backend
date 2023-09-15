@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ChatController {
 
-    @MessageMapping("/sendMessage")
+    @MessageMapping("/app/chat/sendMessage")
     @SendTo("/topic/group")
     public ChatMessage broadcastGroupMessage(@Payload ChatMessage message) {
         //Sending this message to all the subscribers
         return message;
     }
 
-    @MessageMapping("/newUser")
+    @MessageMapping("/app/chat/newUser")
     @SendTo("/topic/group")
     public ChatMessage addUser(@Payload ChatMessage message,
                            SimpMessageHeaderAccessor headerAccessor) {

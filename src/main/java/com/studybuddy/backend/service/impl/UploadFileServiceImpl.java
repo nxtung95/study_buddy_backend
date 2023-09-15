@@ -4,6 +4,7 @@ import com.studybuddy.backend.object.FileUpload;
 import com.studybuddy.backend.service.UploadFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,9 +21,9 @@ public class UploadFileServiceImpl implements UploadFileService {
 	private final String UPLOAD_PATH = "/image/subject_id_$1/question_id_$2";
 
 	@Override
-	public void uploadFile(MultipartFile file, int subjectId, int questionId) {
+	public void uploadFile(MultipartFile file, int subjectId, int questionId, String endPath) {
 		try {
-			String path = UPLOAD_PATH.replace("$1", String.valueOf(subjectId)).replace("$2", String.valueOf(questionId));
+			String path = (UPLOAD_PATH + endPath).replace("$1", String.valueOf(subjectId)).replace("$2", String.valueOf(questionId));
 			Files.createDirectories(Paths.get(path));
 
 			File saveFile = new File(path + "/" + file.getOriginalFilename());
@@ -33,15 +34,17 @@ public class UploadFileServiceImpl implements UploadFileService {
 	}
 
 	@Override
-	public List<FileUpload> getFile(int subjectId, int questionId) {
+	public List<FileUpload> getFile(int subjectId, int questionId, String endPath) {
 		List<FileUpload> fileUploads = new ArrayList<>();
 		try {
-			String path = UPLOAD_PATH.replace("$1", String.valueOf(subjectId)).replace("$2", String.valueOf(questionId));
+			String path = (UPLOAD_PATH + endPath).replace("$1", String.valueOf(subjectId)).replace("$2", String.valueOf(questionId));
 			File directoryPath = new File(path);
 			File filesList[] = directoryPath.listFiles();
 			for(File file : filesList) {
 				log.info("File name: " + file.getName());
-				fileUploads.add(new FileUpload(file.getName(), Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file))));
+				String extension = FilenameUtils.getExtension(file.getName());
+
+				fileUploads.add(new FileUpload(file.getName(), "data:image/" + extension + ";base64," + Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file))));
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -50,23 +53,13 @@ public class UploadFileServiceImpl implements UploadFileService {
 	}
 
 	@Override
-	public void deleteFile(int subjectId, int questionId) {
+	public void deleteFile(int subjectId, int questionId, String endPath) {
 		try {
-			String path = UPLOAD_PATH.replace("$1", String.valueOf(subjectId)).replace("$2", String.valueOf(questionId));
+			String path = (UPLOAD_PATH + endPath).replace("$1", String.valueOf(subjectId)).replace("$2", String.valueOf(questionId));
 			File directoryPath = new File(path);
 			FileUtils.cleanDirectory(directoryPath);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 	}
-
-//	@Override
-//	public Resource fetchFileAsResource(String fileName) throws FileNotFoundException {
-//		return null;
-//	}
-//
-//	@Override
-//	public List<FileDetails> getAllFiles() {
-//		return null;
-//	}
 }

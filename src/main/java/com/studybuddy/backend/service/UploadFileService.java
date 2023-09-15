@@ -8,13 +8,9 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 public interface UploadFileService {
-	void uploadFile(MultipartFile file, int subjectId, int questionId);
+	void uploadFile(MultipartFile file, int subjectId, int questionId, String endPath);
 
-	List<FileUpload> getFile(int subjectId, int questionId);
+	List<FileUpload> getFile(int subjectId, int questionId, String endPath);
 
-	void deleteFile(int subjectId, int questionId);
-
-//	Resource fetchFileAsResource(String fileName) throws FileNotFoundException;
-//
-//	List<FileDetails> getAllFiles();
+	void deleteFile(int subjectId, int questionId, String endPath);
 }

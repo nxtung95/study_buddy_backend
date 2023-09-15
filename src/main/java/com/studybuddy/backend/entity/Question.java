@@ -65,4 +65,7 @@ public class Question {
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     @OrderBy(value = "updatedDate DESC")
     private List<Answer> answers;
+
+    @Column(name = "answer_solution_path")
+    private String answerSolutionPath;
 }

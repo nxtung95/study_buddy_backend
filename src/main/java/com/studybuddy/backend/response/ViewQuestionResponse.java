@@ -17,8 +17,8 @@ public class ViewQuestionResponse extends BaseResponse {
 	private String answerDate;
 	private int status;
 	private List<FileUpload> images;
+	private List<FileUpload> solutions;
 	private List<AnswerViewObj> answers;
-	private FileUpload solution;
 	private boolean isVoiceCall;
 	private boolean isChatMessage;
 	private boolean isVideoCall;
