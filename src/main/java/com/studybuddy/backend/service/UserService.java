@@ -14,4 +14,6 @@ public interface UserService {
     User findByEmail(String email);
 
     List<User> findTutors();
+
+    String findTutorNameById(int tutorId);
 }

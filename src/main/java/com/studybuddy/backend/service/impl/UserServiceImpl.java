@@ -95,4 +95,19 @@ public class UserServiceImpl implements UserService {
 		}
 		return tutors;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public String findTutorNameById(int tutorId) {
+		String tutorName = "";
+		try {
+			List<User> tutors =  findTutors();
+			User tutor = tutors.stream().filter(t -> t.getId() == tutorId).findFirst().orElse(null);
+			tutorName =  tutor == null ? "" : tutor.getFirstName() + tutor.getLastName();
+			return tutorName;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return tutorName;
+	}
 }

@@ -8,7 +8,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "subject")
@@ -29,9 +29,10 @@ public class Subject {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @OrderBy(value = "updatedDate DESC")
-    private Set<Question> questions;
+    private List<Question> questions;
 
     @Column(name = "created_date")
     @Builder.Default
     private Timestamp createdDate = new Timestamp(System.currentTimeMillis());
+
 }

@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -149,8 +150,10 @@ public class QuestionController {
 				return ResponseEntity.badRequest().body(res);
 			}
 			Question question = questionService.findById(rq.getQuestionId());
+			question.setAnswerDate(new Timestamp(System.currentTimeMillis()));
 			question.setStatus(rq.getStatus());
 			questionService.update(question);
+			return ResponseEntity.ok().body(res);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			res.setCode("99");
@@ -176,6 +179,7 @@ public class QuestionController {
 			question.setIsVideoCall(rq.getIsAllowVideoCall());
 			question.setIsVoiceCall(rq.getIsAllowVoiceCall());
 			questionService.update(question);
+			return ResponseEntity.ok().body(res);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			res.setCode("99");

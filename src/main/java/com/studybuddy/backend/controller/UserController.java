@@ -24,9 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -72,14 +71,20 @@ public class UserController {
 			if ("tutor".equalsIgnoreCase(user.getRole())) {
 				List<Subject> subjects = subjectService.findAll();
 				subjects.forEach(subject -> {
-					Set<Question> questions = subject.getQuestions();
-					Set<Question> filterQuestions = questions.stream().filter(q -> q.getTutorId() == user.getId()).collect(Collectors.toSet());
+					List<Question> questions = subject.getQuestions();
+					List<Question> filterQuestions = questions.stream()
+							.filter(q -> q.getTutorId() == user.getId())
+							.collect(Collectors.toList());
 					subject.setQuestions(filterQuestions);
 				});
-				user.setSubjects(new HashSet<>(subjects));
+				user.setSubjects(subjects);
 			}
+			user.getSubjects().forEach(subject -> subject.getQuestions().forEach(question -> {
+				question.setTutorName(userService.findTutorNameById(question.getTutorId()));
+			}));
+
 			User newUser = user.toBuilder().build();
-			newUser.setSubjects(new HashSet<>());
+			newUser.setSubjects(new ArrayList<>());
 			final String token = authenticationService.generateToken(newUser);
 
 			res.setUser(user);

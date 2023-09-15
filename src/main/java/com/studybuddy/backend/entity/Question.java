@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,6 +27,9 @@ public class Question {
 
     @Column(name = "tutor_id")
     private int tutorId;
+
+    @Transient
+    private String tutorName;
 
     private String title;
 
@@ -60,5 +64,5 @@ public class Question {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     @OrderBy(value = "updatedDate DESC")
-    private Set<Answer> answers;
+    private List<Answer> answers;
 }
