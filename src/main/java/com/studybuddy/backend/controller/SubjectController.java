@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/app/subjects")
 @Slf4j
@@ -36,6 +38,7 @@ public class SubjectController {
                 return ResponseEntity.badRequest().body(res);
             }
             Subject subject = subjectService.create(rq.getTitle());
+            subject.setQuestions(new ArrayList<>());
             res.setSubject(subject);
             return ResponseEntity.ok(res);
         } catch (Exception e) {
@@ -93,6 +96,30 @@ public class SubjectController {
                 return ResponseEntity.badRequest().body(res);
             }
             subjectService.remove(subject.getId());
+            res.setSubject(subject);
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            res.setCode("99");
+            res.setDesc("System error. Please try again");
+            return ResponseEntity.internalServerError().body(res);
+        }
+    }
+
+    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+    public ResponseEntity<SubjectResponse> view(@PathVariable(name = "id") Integer id) {
+        SubjectResponse res = SubjectResponse.builder()
+                .code("00")
+                .desc("Success")
+                .build();
+        try {
+            if (id == null || id <= 0) {
+                res.setCode("01");
+                res.setDesc("Invalid subject data");
+                return ResponseEntity.badRequest().body(res);
+            }
+            Subject subject = subjectService.findById(id);
+            subject.setQuestions(new ArrayList<>());
             res.setSubject(subject);
             return ResponseEntity.ok(res);
         } catch (Exception e) {
