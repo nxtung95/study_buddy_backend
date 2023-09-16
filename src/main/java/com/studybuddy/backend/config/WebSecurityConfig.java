@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -36,12 +37,14 @@ public class WebSecurityConfig {
 		// Enable CORS and disable CSRF
 		http.csrf(csrf -> csrf.disable());
 
+//		http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http.exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
 		http.authorizeHttpRequests(request ->
-				request.requestMatchers("/app/user/login", "/app/user/register", "/ws-chat").permitAll()
+				request.requestMatchers("/app/user/login", "/app/user/register", "/ws-chat/**").permitAll()
 				.requestMatchers(HttpMethod.OPTIONS).permitAll()
 				.anyRequest().authenticated());
 

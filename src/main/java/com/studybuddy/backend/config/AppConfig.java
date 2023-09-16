@@ -31,4 +31,8 @@ public class AppConfig {
 				.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
 	}
+
+	public static void main(String[] args) {
+		System.out.println(new BCryptPasswordEncoder().encode("test1234"));
+	}
 }
