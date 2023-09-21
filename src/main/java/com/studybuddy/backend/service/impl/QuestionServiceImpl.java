@@ -18,12 +18,12 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public Question create(int tutorId, int subjectId, String filePath, String title, String inputDetail) {
+    public Question
+    create(int subjectId, String filePath, String title, String inputDetail) {
         try {
             Question question = Question.builder()
                     .title(title)
                     .subjectId(subjectId)
-                    .tutorId(tutorId)
                     .inputDetail(inputDetail)
                     .imageDetailUrl(filePath)
                     .isVoiceCall(0)

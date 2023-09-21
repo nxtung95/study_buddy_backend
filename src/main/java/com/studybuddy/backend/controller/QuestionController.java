@@ -51,7 +51,7 @@ public class QuestionController {
 			}
 			String filePath = rq.getFiles().stream().map(f -> f.getFileName()).collect(Collectors.joining(","));
 
-			Question question = questionService.create(rq.getTutorId(), rq.getSubjectId(), filePath, rq.getTitle(), rq.getInputText());
+			Question question = questionService.create(rq.getSubjectId(), filePath, rq.getTitle(), rq.getInputText());
 			rq.getFiles().stream().forEach(fileUpload -> {
 				String[] data = fileUpload.getData().split(",");
 				String base64Data = data[1];

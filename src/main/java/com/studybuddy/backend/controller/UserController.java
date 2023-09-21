@@ -70,13 +70,6 @@ public class UserController {
 			}
 			if ("tutor".equalsIgnoreCase(user.getRole())) {
 				List<Subject> subjects = subjectService.findAll();
-				subjects.forEach(subject -> {
-					List<Question> questions = subject.getQuestions();
-					List<Question> filterQuestions = questions.stream()
-							.filter(q -> q.getTutorId() == user.getId())
-							.collect(Collectors.toList());
-					subject.setQuestions(filterQuestions);
-				});
 				user.setSubjects(subjects);
 			}
 			user.getSubjects().forEach(subject -> subject.getQuestions().forEach(question -> {
