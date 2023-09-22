@@ -13,6 +13,7 @@ import java.util.List;
 @SuperBuilder(toBuilder = true)
 public class ViewQuestionResponse extends BaseResponse {
 	private String inputText;
+	private int tutorId;
 	private String tutorName;
 	private String answerDate;
 	private int status;

@@ -133,16 +133,21 @@ public class QuestionController {
 				List<User> userList = userService.findTutors();
 				User user = userList.stream().filter(u -> u.getId() == question.getTutorId()).findFirst().orElse(null);
 				String tutorName = user == null ? "" : user.getFirstName() + " " + user.getLastName();
+				res.setTutorId(question.getTutorId());
 				res.setTutorName(tutorName);
 				res.setStatus(question.getStatus());
 				res.setAnswerDate(question.getAnswerDate() != null  ? FormatUtils.formatDate(question.getAnswerDate(), "yyyy-MM-dd HH:mm:ss") : "");
 				List<AnswerViewObj> answers = question.getAnswers().stream()
-						.map(a -> AnswerViewObj.builder()
-								.id(a.getId())
-								.content(a.getContent())
-								.updatedDate(FormatUtils.formatDate(a.getUpdatedDate(), "yyyy-MM-dd HH:mm:ss"))
-								.tutorName(tutorName)
-								.build())
+						.map(a -> {
+							User answerUser = userList.stream().filter(u -> u.getId() == a.getTutorId()).findFirst().orElse(null);
+							String answerTutorName = answerUser == null ? "" : answerUser.getFirstName() + " " + answerUser.getLastName();
+							return AnswerViewObj.builder()
+									.id(a.getId())
+									.content(a.getContent())
+									.updatedDate(FormatUtils.formatDate(a.getUpdatedDate(), "yyyy-MM-dd HH:mm:ss"))
+									.tutorName(answerTutorName)
+									.build();
+						})
 						.collect(Collectors.toList());
 				res.setAnswers(answers);
 				res.setVideoCall(question.getIsVideoCall() == 1 ? true : false);
@@ -201,7 +206,7 @@ public class QuestionController {
 				.desc("Success")
 				.build();
 		try {
-			if (rq.getQuestionId() <= 0) {
+			if (rq.getQuestionId() <= 0 || rq.getTutorId() <= 0) {
 				res.setCode("01");
 				res.setDesc("Invalid question data");
 				return ResponseEntity.badRequest().body(res);
@@ -209,7 +214,13 @@ public class QuestionController {
 			Question question = questionService.findById(rq.getQuestionId());
 			question.setAnswerDate(new Timestamp(System.currentTimeMillis()));
 			question.setStatus(rq.getStatus());
+			question.setTutorId(rq.getTutorId());
 			questionService.update(question);
+			List<User> userList = userService.findTutors();
+			User user = userList.stream().filter(u -> u.getId() == question.getTutorId()).findFirst().orElse(null);
+			String tutorName = user == null ? "" : user.getFirstName() + " " + user.getLastName();
+			question.setTutorName(tutorName);
+			res.setCard(question);
 			return ResponseEntity.ok().body(res);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
