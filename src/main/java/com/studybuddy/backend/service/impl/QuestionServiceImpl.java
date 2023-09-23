@@ -18,8 +18,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public Question
-    create(int subjectId, String filePath, String title, String inputDetail) {
+    public Question create(int subjectId, String filePath, String title, String inputDetail, int regisChat, int regisVoiceCall, int regisVideoCall) {
         try {
             Question question = Question.builder()
                     .title(title)
@@ -29,6 +28,9 @@ public class QuestionServiceImpl implements QuestionService {
                     .isVoiceCall(0)
                     .isChatMessage(0)
                     .isVideoCall(0)
+                    .isRegisterChatMessage(regisChat)
+                    .isRegisterVoiceCall(regisVoiceCall)
+                    .isRegisterVideoCall(regisVideoCall)
                     .build();
             return questionRepository.save(question);
         } catch (Exception e) {

@@ -23,4 +23,8 @@ public class ViewQuestionResponse extends BaseResponse {
 	private boolean isVoiceCall;
 	private boolean isChatMessage;
 	private boolean isVideoCall;
+
+	private boolean isRegistVoiceCall;
+	private boolean isRegistChat;
+	private boolean isRegistVideoCall;
 }

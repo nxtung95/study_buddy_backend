@@ -20,4 +20,7 @@ public class QuestionRequest {
 	private int tutorId;
 	private String inputText;
 	private List<FileUpload> files;
+	private int regisChat;
+	private int regisVoiceCall;
+	private int regisVideoCall;
 }

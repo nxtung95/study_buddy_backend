@@ -16,4 +16,7 @@ public class QuestionContactRequest {
 	private int isAllowVideoCall;
 	private int isAllowVoiceCall;
 	private int tutorId;
+	private int isRegistChat;
+	private int isRegistVideoCall;
+	private int isRegistVoiceCall;
 }

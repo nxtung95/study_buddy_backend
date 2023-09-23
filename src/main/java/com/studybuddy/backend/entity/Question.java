@@ -68,4 +68,13 @@ public class Question {
 
     @Column(name = "answer_solution_path")
     private String answerSolutionPath;
+
+    @Column(name = "is_register_chat_message")
+    private Integer isRegisterChatMessage;
+
+    @Column(name = "is_register_video_call")
+    private Integer isRegisterVideoCall;
+
+    @Column(name = "is_register_voice_call")
+    private Integer isRegisterVoiceCall;
 }

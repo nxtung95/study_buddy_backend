@@ -51,7 +51,7 @@ public class QuestionController {
 			}
 			String filePath = rq.getFiles().stream().map(f -> f.getFileName()).collect(Collectors.joining(","));
 
-			Question question = questionService.create(rq.getSubjectId(), filePath, rq.getTitle(), rq.getInputText());
+			Question question = questionService.create(rq.getSubjectId(), filePath, rq.getTitle(), rq.getInputText(), rq.getRegisChat(), rq.getRegisVoiceCall(), rq.getRegisVideoCall());
 			rq.getFiles().stream().forEach(fileUpload -> {
 				String[] data = fileUpload.getData().split(",");
 				String base64Data = data[1];
@@ -153,6 +153,10 @@ public class QuestionController {
 				res.setVideoCall(question.getIsVideoCall() == 1 ? true : false);
 				res.setChatMessage(question.getIsChatMessage() == 1 ? true : false);
 				res.setVoiceCall(question.getIsVoiceCall() == 1 ? true : false);
+
+				res.setRegistChat(question.getIsRegisterChatMessage() == 1 ? true : false);
+				res.setRegistVoiceCall(question.getIsRegisterVoiceCall() == 1 ? true : false);
+				res.setRegistVideoCall(question.getIsRegisterVideoCall() == 1 ? true : false);
 				return new ResponseEntity<>(res, HttpStatus.OK);
 			}
 		} catch (Exception e) {
@@ -246,6 +250,32 @@ public class QuestionController {
 			question.setIsChatMessage(rq.getIsAllowChat());
 			question.setIsVideoCall(rq.getIsAllowVideoCall());
 			question.setIsVoiceCall(rq.getIsAllowVoiceCall());
+			questionService.update(question);
+			return ResponseEntity.ok().body(res);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			res.setCode("99");
+			res.setDesc("System error. Please try again");
+		}
+		return ResponseEntity.internalServerError().body(res);
+	}
+
+	@RequestMapping(value = "/updateRegisterContact", method = RequestMethod.POST)
+	public ResponseEntity<QuestionResponse> updateRegisterContact(@RequestBody QuestionContactRequest rq) {
+		QuestionResponse res = QuestionResponse.builder()
+				.code("00")
+				.desc("Success")
+				.build();
+		try {
+			if (rq.getQuestionId() <= 0) {
+				res.setCode("01");
+				res.setDesc("Invalid question data");
+				return ResponseEntity.badRequest().body(res);
+			}
+			Question question = questionService.findById(rq.getQuestionId());
+			question.setIsRegisterChatMessage(rq.getIsRegistChat());
+			question.setIsRegisterVoiceCall(rq.getIsRegistVoiceCall());
+			question.setIsRegisterVideoCall(rq.getIsRegistVideoCall());
 			questionService.update(question);
 			return ResponseEntity.ok().body(res);
 		} catch (Exception e) {
