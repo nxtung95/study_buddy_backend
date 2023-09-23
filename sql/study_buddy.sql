@@ -11,7 +11,7 @@
  Target Server Version : 80025
  File Encoding         : 65001
 
- Date: 16/09/2023 15:57:54
+ Date: 23/09/2023 13:15:49
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `answer`  (
   `created_date` datetime(0) NULL DEFAULT NULL,
   `updated_date` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of answer
@@ -54,8 +54,11 @@ CREATE TABLE `question`  (
   `is_video_call` tinyint NULL DEFAULT NULL,
   `answer_solution_path` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `answer_date` datetime(0) NULL DEFAULT NULL,
+  `is_register_chat_message` tinyint NULL DEFAULT NULL,
+  `is_register_video_call` tinyint NULL DEFAULT NULL,
+  `is_register_voice_call` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of question
@@ -71,14 +74,11 @@ CREATE TABLE `subject`  (
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `created_date` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of subject
 -- ----------------------------
-INSERT INTO `subject` VALUES (1, 1, 'Math', '2023-09-11 15:42:21');
-INSERT INTO `subject` VALUES (2, 1, 'Science', '2023-09-10 15:42:28');
-INSERT INTO `subject` VALUES (3, 1, 'Social studies', '2023-09-02 15:42:35');
 
 -- ----------------------------
 -- Table structure for user
@@ -92,12 +92,14 @@ CREATE TABLE `user`  (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'nxtung95@gmail.com', 'Tung', 'Nghiem', '$2a$10$3eX0s2fxZBBhffpP98dlRua9lBM0BXw5WsyLGoCQL7n4ze0aC01em', 'student');
-INSERT INTO `user` VALUES (2, 'nxtung30195@gmail.com', 'Nghiem1', 'Tung1', '$2a$10$nf42f70gVWukHLR3UzWJrOj2U5RSYZX4E5RwPxdA.TFmySJAGQsG6', 'tutor');
+INSERT INTO `user` VALUES (1, 'student01@gmail.com', 'student', '01', '$2a$10$3eX0s2fxZBBhffpP98dlRua9lBM0BXw5WsyLGoCQL7n4ze0aC01em', 'student');
+INSERT INTO `user` VALUES (2, 'tutor01@gmail.com', 'tutor', '01', '$2a$10$nf42f70gVWukHLR3UzWJrOj2U5RSYZX4E5RwPxdA.TFmySJAGQsG6', 'tutor');
+INSERT INTO `user` VALUES (8, 'student02@gmail.com', 'student', '02', '$2a$10$F4OuLyuJtpqrv7UbxBeTBOYc.izTym8Vn5A6wMwQf4xY7H51R4igy', 'student');
+INSERT INTO `user` VALUES (9, 'tutor02@gmail.com', 'tutor', '02', '$2a$10$sfS62NFsaAgW7sa0xCF/Nukns.ktePB51O8KmnF/yMzaBCEzkN.EC', 'tutor');
 
 SET FOREIGN_KEY_CHECKS = 1;
